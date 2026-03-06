@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Auction 2026 | Player Marketplace</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-bottom: 2rem;">
+                {% if user_logged_in %}
+                <span style="opacity: 0.8;">Welcome, <strong>{{ current_user }}</strong></span>
+                <a href="/logout" style="color: var(--accent); text-decoration: none; font-weight: 600;">Logout</a>
+                {% else %}
+                <a href="/login" style="color: var(--accent); text-decoration: none; font-weight: 600;">Login</a>
+                <a href="/register" style="color: white; text-decoration: none; font-weight: 600;">Register</a>
+                {% endif %}
+            </div>
+            <h1>IPL AUCTION <span class="highlight">2026</span></h1>
+            <p>Experience the thrill of the live player bidding arena.</p>
+        </header>
+
+        <section class="filters">
+            <div class="filter-group">
+                <input type="text" id="nameSearch" placeholder="Search Player Name..." onkeyup="filterPlayers()">
+            </div>
+            <div class="filter-group">
+                <select id="teamFilter" onchange="filterPlayers()">
+                    <option value="">All Teams</option>
+                    <option value="RCB">RCB</option>
+                    <option value="CSK">CSK</option>
+                    <option value="MI">MI</option>
+                    <option value="GT">GT</option>
+                    <option value="LSG">LSG</option>
+                    <option value="KKR">KKR</option>
+                    <option value="RR">RR</option>
+                    <option value="DC">DC</option>
+                    <option value="SRH">SRH</option>
+                    <option value="PBKS">PBKS</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <select id="roleFilter" onchange="filterPlayers()">
+                    <option value="">All Roles</option>
+                    <option value="batsman">Batsman</option>
+                    <option value="bowler">Bowler</option>
+                    <option value="allrounder">All-Rounder</option>
+                    <option value="wicketkeeper">Wicketkeeper</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Sort By:</label>
+                <select id="sortField" onchange="sortPlayers()">
+                    <option value="default">Default</option>
+                    <option value="runs">Total Runs</option>
+                    <option value="strike_rate">Strike Rate</option>
+                    <option value="wickets">Total Wickets</option>
+                </select>
+            </div>
+        </section>
+
+        <div class="player-grid" id="playerGrid">
+            {% for player in players %}
+            <div class="player-card" data-name="{{ player.player_name | lower }}" data-team="{{ player.team }}"
+                data-role="{{ player.role }}" data-runs="{{ player.runs }}" data-sr="{{ player.strike_rate }}"
+                data-wickets="{{ player.wickets }}">
+                <span class="tag">{{ player.team }}</span>
+                <h3>{{ player.player_name }}</h3>
+                <p style="opacity: 0.6; margin-bottom: 1rem;">{{ player.role | capitalize }}</p>
+
+                <div class="stat-row">
+                    <span>Matches</span>
+                    <strong>{{ player.matches }}</strong>
+                </div>
+                <div class="stat-row">
+                    <span>Runs / Wickets</span>
+                    <strong>{{ player.runs }} / {{ player.wickets }}</strong>
+                </div>
+
+                <div class="bid-info">
+                    <div>
+                        <span style="display: block; font-size: 0.7rem; opacity: 0.6;">CURRENT BID</span>
+                        <span class="current-bid-val">₹{{ "{:,}".format(player.current_bid) }}</span>
+                    </div>
+                    <a href="/player/{{ player.id }}" class="btn-view">View Profile</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,240 @@
+:root {
+    --primary-color: #1c2b5b; /* IPL Blue */
+    --secondary-color: #d1a52e; /* Golden */
+    --accent-color: #ff4c4c;
+    --bg-dark: #0a0e1a;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --text-light: #f4f4f4;
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    background-image: radial-gradient(circle at top right, #1c2b5bd4, transparent), 
+                      radial-gradient(circle at bottom left, #d1a52e2e, transparent);
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.navbar {
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10, 14, 26, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+/* Player Grid */
+.player-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.player-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid var(--glass-border);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    backdrop-filter: blur(5px);
+}
+
+.player-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--secondary-color);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.player-img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    transition: transform 0.5s ease;
+}
+
+.player-card:hover .player-img {
+    transform: scale(1.05);
+}
+
+.player-info h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.player-info p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 0.2rem;
+}
+
+.bid-status {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.current-bid {
+    font-weight: bold;
+    color: #4cd137;
+}
+
+.view-btn {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.view-btn:hover {
+    background: #e5b63a;
+}
+
+/* Profile Page */
+.profile-header {
+    display: flex;
+    gap: 3rem;
+    background: var(--card-bg);
+    padding: 3rem;
+    border-radius: 30px;
+    border: 1px solid var(--glass-border);
+    margin-bottom: 2rem;
+}
+
+.profile-img {
+    width: 350px;
+    height: 450px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 3px solid var(--secondary-color);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.stat-item {
+    background: rgba(255,255,255,0.03);
+    padding: 1rem;
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-bottom: 0.3rem;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.bidding-section {
+    background: rgba(255,255,255,0.05);
+    padding: 2rem;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.bid-input-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+input {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--glass-border);
+    padding: 1rem;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    flex-grow: 1;
+}
+
+.bid-btn {
+    background: #4cd137;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Charts */
+.chart-container {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    margin-top: 2rem;
+}
+
+/* Filters */
+.filters-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 15px;
+}
+
+.filter-item select, .filter-item input {
+    padding: 0.5rem;
+    border-radius: 5px;
+    background: #111;
+    color: white;
+    border: 1px solid #444;
+}

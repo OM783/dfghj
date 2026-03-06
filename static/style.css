@@ -1,0 +1,252 @@
+:root {
+    --primary: #001C55;
+    /* Deep IPL Blue */
+    --accent: #E3B04B;
+    /* Golden Accent */
+    --success: #27ae60;
+    --danger: #e74c3c;
+    --dark-bg: #050a14;
+    --card-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: #ffffff;
+    background-image: radial-gradient(circle at 10% 20%, rgba(0, 28, 85, 0.4) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(227, 176, 75, 0.1) 0%, transparent 40%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+}
+
+.highlight {
+    color: var(--accent);
+}
+
+/* Filters */
+.filters {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    padding: 1.5rem;
+    border-radius: 20px;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.filters input,
+.filters select {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--glass-border);
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.filters input:focus {
+    border-color: var(--accent);
+}
+
+.filters label {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-right: 0.5rem;
+}
+
+/* Player Grid */
+.player-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.player-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.player-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.player-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.2rem;
+}
+
+.tag {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: rgba(227, 176, 75, 0.2);
+    color: var(--accent);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.bid-info {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.current-bid-val {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--success);
+}
+
+.btn-view {
+    background: var(--accent);
+    color: var(--primary);
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    transition: 0.3s;
+}
+
+.btn-view:hover {
+    background: #ffffff;
+    transform: scale(1.05);
+}
+
+/* Player Profile */
+.profile-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 2rem;
+}
+
+.stats-card {
+    background: var(--card-bg);
+    padding: 3rem;
+    border-radius: 32px;
+    border: 1px solid var(--glass-border);
+}
+
+.bidding-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 2px solid var(--accent);
+    padding: 3rem;
+    border-radius: 32px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.stat-box {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.2rem;
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+}
+
+.stat-box span {
+    display: block;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    margin-bottom: 0.3rem;
+}
+
+.stat-box strong {
+    font-size: 1.5rem;
+    color: var(--accent);
+}
+
+.bid-form {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.bid-form input {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--glass-border);
+    padding: 1.2rem;
+    border-radius: 16px;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.btn-bid {
+    background: var(--success);
+    color: white;
+    border: none;
+    padding: 1.2rem;
+    border-radius: 16px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-bid:hover {
+    background: #2ecc71;
+    transform: scale(1.02);
+}
+
+#bid-msg {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    display: none;
+}

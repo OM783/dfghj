@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Auction Leaderboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">IPL AUCTION 2026</div>
+        <div class="nav-links">
+            <a href="/" style="color: white; text-decoration: none;">Home</a>
+            <a href="/auction"
+                style="color: var(--secondary-color); text-decoration: none; margin-left: 1rem;">Leaderboard</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 3rem;">Auction <span
+                style="color: var(--secondary-color);">Leaderboard</span></h1>
+
+        <div
+            style="background: var(--card-bg); padding: 2rem; border-radius: 20px; border: 1px solid var(--glass-border);">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--glass-border);">
+                        <th style="padding: 1rem;">Rank</th>
+                        <th style="padding: 1rem;">Player</th>
+                        <th style="padding: 1rem;">Current Bid</th>
+                        <th style="padding: 1rem;">Highest Bidder</th>
+                        <th style="padding: 1rem;">Team</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    {% for player in players | sort(attribute='current_bid', reverse=True) %}
+                    <tr style="border-bottom: 1px solid var(--glass-border);">
+                        <td style="padding: 1rem;">#{{ loop.index }}</td>
+                        <td style="padding: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <img src="{{ player.image_url }}"
+                                    style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                                {{ player.name }}
+                            </div>
+                        </td>
+                        <td style="padding: 1rem; color: #4cd137; font-weight: bold;">₹{{
+                            "{:,}".format(player.current_bid or player.base_price) }}</td>
+                        <td style="padding: 1rem;">{{ player.highest_bidder or 'No bids' }}</td>
+                        <td style="padding: 1rem;">{{ player.team }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Optional: Implement live leaderboard updates here
+    </script>
+</body>
+
+</html>

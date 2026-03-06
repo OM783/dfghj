@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ player.player_name }} | Player Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header style="text-align: left;">
+            <a href="/" style="color: var(--accent); text-decoration: none; font-weight: 600;">← Back to AUCTION</a>
+            <h1 style="margin-top: 1rem;"><span class="highlight">{{ player.player_name }}</span> Profile</h1>
+            <p>{{ player.team }} | {{ player.role | capitalize }}</p>
+        </header>
+
+        <div class="profile-wrapper">
+            <div class="stats-card">
+                <h2>Career Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span>Matches</span>
+                        <strong>{{ player.matches }}</strong>
+                    </div>
+                    <div class="stat-box">
+                        <span>Total Runs</span>
+                        <strong>{{ player.runs }}</strong>
+                    </div>
+                    <div class="stat-box">
+                        <span>Batting Average</span>
+                        <strong>{{ player.average }}</strong>
+                    </div>
+                    <div class="stat-box">
+                        <span>Strike Rate</span>
+                        <strong>{{ player.strike_rate }}</strong>
+                    </div>
+                    <div class="stat-box">
+                        <span>Total Wickets</span>
+                        <strong>{{ player.wickets }}</strong>
+                    </div>
+                    <div class="stat-box">
+                        <span>Economy Rate</span>
+                        <strong>{{ player.economy }}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bidding-card">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <span style="display: block; opacity: 0.6; font-size: 1rem;">LIVE HIGHEST BID</span>
+                    <h2 id="live-bid-val" style="font-size: 3.5rem; color: var(--success);">₹{{
+                        "{:,}".format(player.current_bid) }}</h2>
+                    <p style="opacity: 0.8;">Highest Bidder: <strong id="live-bidder" style="color: var(--accent);">{{
+                            player.highest_bidder }}</strong></p>
+                </div>
+
+                {% if user_logged_in %}
+                <div class="bid-form">
+                    <p style="text-align: center; opacity: 0.7;">Bidding as: <strong>{{ current_user }}</strong></p>
+                    <input type="number" id="bidAmount" placeholder="Enter Bid Amount (₹)">
+                    <button class="btn-bid" onclick="placeBid({{ player.id }})">PLACE BID NOW</button>
+                    <div id="bid-msg"></div>
+                </div>
+                {% else %}
+                <div
+                    style="text-align: center; padding: 2rem; border: 1px dashed var(--glass-border); border-radius: 20px;">
+                    <p style="margin-bottom: 1rem; opacity: 0.8;">You must be logged in to place a bid.</p>
+                    <a href="/login" class="btn-view" style="display: inline-block;">Login to Bid</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function placeBid(playerId) {
+            const bid_amount = document.getElementById('bidAmount').value;
+            const msgDiv = document.getElementById('bid-msg');
+
+            if (!bid_amount) {
+                showMsg("Please enter a bid amount.", "var(--danger)");
+                return;
+            }
+
+            try {
+                const response = await fetch('/bid', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ player_id: playerId, bid_amount: parseInt(bid_amount) })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMsg(data.message, "var(--success)");
+                    document.getElementById('bidAmount').value = '';
+                    updateBidInfo(playerId);
+                } else {
+                    showMsg(data.message, "var(--danger)");
+                }
+            } catch (err) {
+                showMsg("Communication error. Try again.", "var(--danger)");
+            }
+        }
+
+        function showMsg(text, color) {
+            const msgDiv = document.getElementById('bid-msg');
+            msgDiv.innerText = text;
+            msgDiv.style.backgroundColor = color + "22";
+            msgDiv.style.color = color;
+            msgDiv.style.border = "1px solid " + color;
+            msgDiv.style.display = "block";
+            setTimeout(() => { msgDiv.style.display = "none"; }, 4000);
+        }
+
+        async function updateBidInfo(playerId) {
+            try {
+                const response = await fetch(`/api/player/${playerId}`);
+                const player = await response.json();
+
+                document.getElementById('live-bid-val').innerText = `₹${player.current_bid.toLocaleString()}`;
+                document.getElementById('live-bidder').innerText = player.highest_bidder;
+
+                // Update placeholder to show the required minimum bid
+                const minNextBid = player.current_bid + 1;
+                document.getElementById('bidAmount').placeholder = `Min bid: ₹${minNextBid.toLocaleString()}`;
+            } catch (err) { console.error("Update failed", err); }
+        }
+
+        // Auto-refresh every 2 seconds for that "live" feel
+        setInterval(() => updateBidInfo({{ player.id }}), 2000);
+    </script>
+</body>
+
+</html>
